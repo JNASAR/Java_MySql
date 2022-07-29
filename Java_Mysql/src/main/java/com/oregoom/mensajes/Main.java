@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         ListarRegistros();
-        EditarRegistros("Saludo editado Java","JNASAR24",5);
+        EliminarRegistros(1);
         ListarRegistros();
     }
     static void ListarRegistros() throws SQLException {
@@ -87,6 +87,28 @@ public class Main {
         //actualizar base
         ps.executeUpdate();   
         //cerrar todos los procesos
+        ps.close();
+        conectar.close();
+    }
+    static void EliminarRegistros(int id) throws SQLException {
+        //conexion a la base de datos
+        Connection conectar = DriverManager.getConnection(
+                //cocexion local a la base de datos "mensajes_db" configuracion de zona horaria, usuario , contraseña
+                "jdbc:mysql://localhost/mensajes_db?serverTimezone=UTC",
+                "root",
+                "123456");
+        //System.out.println("Conexion exitosa");
+
+        //Editar datos de la base de datos "Query"
+        String sql = "DELETE FROM mensajes WHERE id_mensaje=?";
+        //interfas (variable en donde se alamacena la consulta (sql))
+        PreparedStatement ps = conectar.prepareStatement(sql);
+        //Para insertar registros no se usa ResultSet 
+        //Usamos "PreparedStatement = ps", para recuperar los datos a cargar/insertar
+        ps.setInt(1, id);
+        //actualizar base
+        ps.executeUpdate();   
+        //cerrar todos los procesos/flujos
         ps.close();
         conectar.close();
     }
