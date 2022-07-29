@@ -11,8 +11,9 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         ListarRegistros();
+        InsertarRegistros("Saludo desde Java","JNASAR");
+        ListarRegistros();
     }
-
     static void ListarRegistros() throws SQLException {
         //conexion a la base de datos
         Connection conectar = DriverManager.getConnection(
@@ -39,6 +40,29 @@ public class Main {
         }
         //cerrar todos los procesos
         rs.close();
+        ps.close();
+        conectar.close();
+    }
+    static void InsertarRegistros(String mensaje, String autor) throws SQLException {
+        //conexion a la base de datos
+        Connection conectar = DriverManager.getConnection(
+                //cocexion local a la base de datos "mensajes_db" configuracion de zona horaria, usuario , contraseña
+                "jdbc:mysql://localhost/mensajes_db?serverTimezone=UTC",
+                "root",
+                "123456");
+        System.out.println("Conexion exitosa");
+
+        //Recuperar datos de la base de datos "Query"
+        String sql = "INSERT INTO mensajes(mensaje,autor,fecha)VALUES(?,?,CURRENT_DATE())";
+        //interfas (variable en donde se alamacena la consulta (sql))
+        PreparedStatement ps = conectar.prepareStatement(sql);
+        //Para insertar registros no se usa ResultSet 
+        //Usamos "PreparedStatement = ps", para recuperar los datos a cargar/insertar
+        ps.setString(1, mensaje);
+        ps.setString(2, autor);
+        //actualizar base
+        ps.executeUpdate();   
+        //cerrar todos los procesos
         ps.close();
         conectar.close();
     }
