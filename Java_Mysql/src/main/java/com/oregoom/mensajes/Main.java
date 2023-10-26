@@ -17,7 +17,7 @@ public class Main {
     static void ListarRegistros() throws SQLException {
         //conexion a la base de datos
         Connection conectar = DriverManager.getConnection(
-                //cocexion local a la base de datos "mensajes_db" configuracion de zona horaria, usuario , contraseña
+                //cocexion local a la base de datos "mensajes_db" configuracion de zona horaria, usuario, contraseña
                 "jdbc:mysql://localhost/mensajes_db?serverTimezone=UTC",
                 "root",
                 "123456");
